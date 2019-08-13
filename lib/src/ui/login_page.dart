@@ -1,14 +1,24 @@
+import 'package:app_tindev/src/blocs/AppBloc.dart';
+import 'package:app_tindev/src/ui/main_page.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final BaseController bloc = BlocProvider.getBloc<BaseController>();
+
+    void submit() {
+      if (this._formKey.currentState.validate()) {
+        _formKey.currentState.save();
+      }
+    }
+
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      color: Color(0xffeeeeee),
       child: Form(
         key: this._formKey,
         child: Column(
@@ -19,6 +29,16 @@ class Login extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
               child: TextFormField(
+                onSaved: (String value) async {
+                  if (value.isNotEmpty) {
+                    await bloc.fetchLoggedUser(value);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    );
+                  }
+                },
                 cursorColor: Colors.grey,
                 style: TextStyle(color: Color(0xFF666666)),
                 decoration: InputDecoration(
@@ -49,7 +69,8 @@ class Login extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4)),
                   color: Color(0xFFDF4723),
                   child: InkWell(
-                    onTap: (){},
+                    onTap: submit,
+                    key: GlobalKey(),
                     hoverColor: Colors.white70,
                     splashColor: Colors.white60,
                     highlightColor: Colors.white30,

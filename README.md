@@ -1,8 +1,9 @@
-# app_tindev
+# Tindev Flutter
 
-A new Flutter project.
+Essa é uma implementação do app Tindev feita em Flutter.
+É utilizado o mesmo backend produzido na semana omnistack da Rocketseat.
 
-## Getting Started
+## About Flutter
 
 This project is a starting point for a Flutter application.
 
